@@ -36,7 +36,7 @@ void registrarProfesor(Profesor *profesor) {
 	}while(profesor -> numeroMaterias < 2 || profesor -> numeroMaterias > 3);
 
 	for(int i = 0; i < profesor -> numeroMaterias; i++){
-		printf("Ingrese el nombre de la materia %d: ", i + 1)
+		printf("Ingrese el nombre de la materia %d: ", i + 1);
 		scanf(" %[^\n]", profesor->materias[i].nombreMateria);
 		printf("Ingrese el paralelo de la materia %d: ", i+1);
 		scanf(" %[^\n]", profesor->materias[i].paralelo);
@@ -49,7 +49,7 @@ void registrarEstudiante(Estudiante *estudiante){
 	printf("Nombre de la carrera: ");
 	scanf("%[^\n]", estudiante->carrera);
 	printf("Nivel del estudiante: ");
-	sacnf("%d", &estudiante->nivel);
+	scanf("%d", &estudiante->nivel);
 
 	do{
 		printf("Ingrese el numero de materias a tomar (DE 3 A 7): ");
@@ -79,16 +79,17 @@ void mostrarLaInformacion(int cantidadProfesores, Profesor *profesores, Estudian
 
 	}
 
-	for(int i = 0; i < numerosEstudiantes; i++){
-		printf("\nPROFESOR %d:\n", i + 1);
+	for(int i = 0; i < numeroEstudiantes; i++){
+		printf("\nESTUDIANTE %d:\n", i + 1);
 		printf("NOMBRE: %s\n", estudiantes[i].nombre);
-		printf("CARRERA: %s\n", estudiantes[i].nombre);
-		printf("NIVEL: %d\n", profesores[i].nivel);
+		printf("CARRERA: %s\n", estudiantes[i].carrera);
+		printf("NIVEL: %d\n", estudiantes[i].nivel);
 		printf("MATERIAS APROPIADAS:\n");
 		for(int j = 0; j < estudiantes[i].numeroMaterias; j++) {
-			printf("MATERIA %d: %s (CREDITOS : %d)\n", j+1,estudiantes[i].materias[j].nombreMateria, estudiante[i].materias[j].creditos);
+			printf("MATERIA %d: %s (CREDITOS: %d)\n", j + 1, estudiantes[i].materias[j].nombreMateria, estudiantes[i].materias[j].creditos);  // Acceso correcto a materias de estudiantes
 		}
 	}
+
 }
 
 int main(int argc, char *argv[]){
@@ -140,6 +141,7 @@ int main(int argc, char *argv[]){
 
 		profesores = malloc(sizeof(Profesor));
 		estudiantes = malloc((cantidad - 1) * sizeof(Estudiante));
+
 
 		registrarProfesor(profesores);
 
