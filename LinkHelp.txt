@@ -1,0 +1,12 @@
+ESTE ARCHIVO INCLUYE LOS LINKS DE LAS PAGINAS QUE AYUDARON EN ESTA TAREA:
+https://stackoverflow.com/questions/42871771/using-scanf-for-structure-input
+https://es.stackoverflow.com/questions/224675/como-leer-cadenas-de-una-estructura-pasada-por-referencia
+https://es.stackoverflow.com/questions/336672/par%c3%a1metros-en-c
+https://es.stackoverflow.com/questions/428400/argumentos-en-c-y-como-trabajar-con-ellos
+https://programacionenc.net/index.php?option=com_content&view=article&id=137:hacer-un-programa-que-reciba-parametros-desde-la-linea-de-comandos-&catid=31:general
+https://es.stackoverflow.com/questions/304008/eliminar-el-salto-de-linea-que-genera-s-string-en-c
+https://es.stackoverflow.com/questions/79931/eliminar-salto-de-linea-al-usar-fgets-en-c
+https://es.stackoverflow.com/questions/526128/eliminar-salto-de-linea-a-un-char-string
+https://es.stackoverflow.com/questions/233537/c%c3%b3mo-puedo-evitar-este-salto-de-linea
+https://parzibyte.me/blog/2020/12/30/c-limpiar-bufer-scanf-fgets/
+

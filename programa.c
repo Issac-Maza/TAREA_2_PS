@@ -9,7 +9,7 @@ typedef struct {
 	int numeroMaterias;
 	struct {
 		char nombreMateria[50];
-		char paralelo[10];
+		int paralelo;
 	} materias[3];
 } Profesor;
 
@@ -24,11 +24,16 @@ typedef struct {
 	} materias[7];
 } Estudiante;
 
+void limpiarBuffer() {
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void registrarProfesor(Profesor *profesor) {
 
-	printf("Nombre del estudiante: ");
-	fgets(estudiante->nombre, 50, stdin);
-	strtok(estudiante->nombre, "\n");
+	printf("Nombre del profesor: ");
+	fgets(profesor->nombre, 50, stdin);
+	strtok(profesor->nombre, "\n");
 
 	printf("Ingrese la carrera del profesor: ");
     	fgets(profesor->carrera, 50, stdin);
@@ -36,7 +41,12 @@ void registrarProfesor(Profesor *profesor) {
 
 	do{
 		printf("Ingrese el número de materias dictando(RECUERDE ELEGIR DE 2 a 3 Materias) : ");
-		scanf("%d", &profesor->numeroMaterias);
+		if (scanf("%d", &profesor->numeroMaterias) != 1) {
+			printf("Error: Por favor ingrese un número válido.\n");
+			limpiarBuffer();
+			continue;
+		}
+		limpiarBuffer();
 	}while(profesor -> numeroMaterias < 2 || profesor -> numeroMaterias > 3);
 
 	for(int i = 0; i < profesor -> numeroMaterias; i++){
@@ -45,8 +55,8 @@ void registrarProfesor(Profesor *profesor) {
 		strtok(profesor->materias[i].nombreMateria, "\n");
 
 		printf("Ingrese el paralelo de la materia %d: ", i+1);
-		fgets(profesor->materias[i].paralelo, sizeof(profesor->materias[i].paralelo), stdin);
-		strtok(profesor->materias[i].paralelo, "\n");
+		scanf("%d", &profesor->materias[i].paralelo);
+        	getchar();
 	}
 }
 
@@ -61,11 +71,21 @@ void registrarEstudiante(Estudiante *estudiante){
 	strtok(estudiante->carrera, "\n");
 
 	printf("Nivel del estudiante: ");
-	scanf("%d", &estudiante->nivel);
+	while (scanf("%d", &estudiante->nivel) != 1) {
+		printf("Error: Por favor ingrese un número válido.\n");
+		limpiarBuffer();
+	}
+	limpiarBuffer();
 
 	do{
 		printf("Ingrese el numero de materias a tomar (DE 3 A 7): ");
-		scanf("%d", &estudiante->numeroMaterias);
+
+		if (scanf("%d", &estudiante->numeroMaterias) != 1) {
+			printf("Error: Por favor ingrese un número válido.\n");
+			limpiarBuffer();
+			continue;
+		}
+		limpiarBuffer();
 	}while(estudiante->numeroMaterias < 3 || estudiante->numeroMaterias > 7);
 
 	for(int i = 0; i < estudiante->numeroMaterias; i++){
@@ -75,33 +95,36 @@ void registrarEstudiante(Estudiante *estudiante){
 		strtok(estudiante->materias[i].nombreMateria, "\n");
 
 		printf("Ingrese los credito de la materia %d: ", i + 1);
-		scanf("%d", &estudiante->materias[i].creditos);
+		while (scanf("%d", &estudiante->materias[i].creditos) != 1) {
+			printf("Error: Por favor ingrese un número válido.\n");
+			limpiarBuffer();
+		}
+		limpiarBuffer();
 	}
 }
 
 void mostrarLaInformacion(int cantidadProfesores, Profesor *profesores, Estudiante *estudiantes, int numeroEstudiantes){
 	printf("\n-----------INFORMACION CONSEGUIDA---------------\n");
 
-	for(int i = 0; i < cantidadProfesores; i++){
-		printf("\nPROFESOR %d:\n", i + 1);
-		printf("NOMBRE: %s\n", profesores[i].nombre);
-		printf("CARRERA: %s\n", profesores[i].carrera);
-		printf("MATERIAS A DICTAR:\n");
-		for(int j = 0; j<profesores[i].numeroMaterias; j++){
-			printf("MATERIA %d: %s (PARALELO :%s)\n", j + 1, profesores[i].materias[j].nombreMateria,profesores[i].materias[j].paralelo);
-
-		}
-
+	for (int i = 0; i < cantidadProfesores; i++) {
+        	printf("\nPROFESOR %d:\n", i + 1);
+        	printf("NOMBRE: %s\n", profesores[i].nombre);
+        	printf("CARRERA: %s\n", profesores[i].carrera);
+        	printf("MATERIAS A DICTAR:\n");
+		for (int j = 0; j < profesores[i].numeroMaterias; j++) {
+			printf("MATERIA %d: %s (PARALELO: %d)\n", j + 1, profesores[i].materias[j].nombreMateria, profesores[i].materias[j].paralelo);
+        	}
 	}
 
-	for(int i = 0; i < numeroEstudiantes; i++){
+
+	for (int i = 0; i < numeroEstudiantes; i++) {
 		printf("\nESTUDIANTE %d:\n", i + 1);
 		printf("NOMBRE: %s\n", estudiantes[i].nombre);
 		printf("CARRERA: %s\n", estudiantes[i].carrera);
 		printf("NIVEL: %d\n", estudiantes[i].nivel);
-		printf("MATERIAS APROPIADAS:\n");
-		for(int j = 0; j < estudiantes[i].numeroMaterias; j++) {
-			printf("MATERIA %d: %s (CREDITOS: %d)\n", j + 1, estudiantes[i].materias[j].nombreMateria, estudiantes[i].materias[j].creditos);  // Acceso correcto a materias de estudiantes
+		printf("MATERIAS:\n");
+		for (int j = 0; j < estudiantes[i].numeroMaterias; j++) {
+			printf("MATERIA %d: %s (CREDITOS: %d)\n", j + 1, estudiantes[i].materias[j].nombreMateria, estudiantes[i].materias[j].creditos);
 		}
 	}
 
@@ -127,9 +150,6 @@ int main(int argc, char *argv[]){
 
 	if(opcion[1] == 'p'){
 
-		printf("Opción seleccionada: %c\n", opcion[1]);
-		printf("Cantidad de personas a registrar: %d\n", cantidad);
-
 		profesores = malloc(cantidad * sizeof(Profesor));
 		for(int i = 0; i<cantidad;i++){
 			registrarProfesor(&profesores[i]);
@@ -139,9 +159,6 @@ int main(int argc, char *argv[]){
 
 	}else if(opcion[1] == 'e'){
 
-		printf("Opción seleccionada: %c\n", opcion[1]);
-                printf("Cantidad de personas a registrar: %d\n", cantidad);
-
 		estudiantes = malloc(cantidad * sizeof(Estudiante));
 		for(int i = 0; i < cantidad; i++) {
 			registrarEstudiante(&estudiantes[i]);
@@ -150,9 +167,6 @@ int main(int argc, char *argv[]){
 		free(estudiantes);
 
 	}else if(opcion[1] == 'a'){
-
-		printf("Opción seleccionada: %c\n", opcion[1]);
-                printf("Cantidad de personas a registrar: %d\n", cantidad);
 
 		profesores = malloc(sizeof(Profesor));
 		estudiantes = malloc((cantidad - 1) * sizeof(Estudiante));
