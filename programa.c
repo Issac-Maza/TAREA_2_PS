@@ -4,31 +4,35 @@
 
 
 typedef struct {
-    char nombre[50];
-    char carrera[50];
-    int numeroMaterias;
-    struct {
-        char nombreMateria[50];
-        char paralelo[10];
-    } materias[3];
+	char nombre[50];
+	char carrera[50];
+	int numeroMaterias;
+	struct {
+		char nombreMateria[50];
+		char paralelo[10];
+	} materias[3];
 } Profesor;
 
 typedef struct {
-    char nombre[50];
-    char carrera[50];
-    int nivel;
-    int numeroMaterias;
-    struct {
-        char nombreMateria[50];
-        int creditos;
-    } materias[7];
+	char nombre[50];
+	char carrera[50];
+	int nivel;
+	int numeroMaterias;
+	struct {
+		char nombreMateria[50];
+		int creditos;
+	} materias[7];
 } Estudiante;
 
 void registrarProfesor(Profesor *profesor) {
-	printf("Ingrese el nombre del profesor: ");
-	scanf(" %[^\n]", profesor->nombre);
+
+	printf("Nombre del estudiante: ");
+	fgets(estudiante->nombre, 50, stdin);
+	strtok(estudiante->nombre, "\n");
+
 	printf("Ingrese la carrera del profesor: ");
-	scanf(" %[^\n]", profesor->carrera);
+    	fgets(profesor->carrera, 50, stdin);
+    	strtok(profesor->carrera, "\n");
 
 	do{
 		printf("Ingrese el número de materias dictando(RECUERDE ELEGIR DE 2 a 3 Materias) : ");
@@ -37,17 +41,25 @@ void registrarProfesor(Profesor *profesor) {
 
 	for(int i = 0; i < profesor -> numeroMaterias; i++){
 		printf("Ingrese el nombre de la materia %d: ", i + 1);
-		scanf(" %[^\n]", profesor->materias[i].nombreMateria);
+		fgets(profesor->materias[i].nombreMateria, sizeof(profesor->materias[i].nombreMateria), stdin);
+		strtok(profesor->materias[i].nombreMateria, "\n");
+
 		printf("Ingrese el paralelo de la materia %d: ", i+1);
-		scanf(" %[^\n]", profesor->materias[i].paralelo);
+		fgets(profesor->materias[i].paralelo, sizeof(profesor->materias[i].paralelo), stdin);
+		strtok(profesor->materias[i].paralelo, "\n");
 	}
 }
 
 void registrarEstudiante(Estudiante *estudiante){
+
 	printf("Nombre del estudiante: ");
-	scanf(" %[^\n]", estudiante->nombre);
+	fgets(estudiante->nombre, 50, stdin);
+	strtok(estudiante->nombre, "\n");
+
 	printf("Nombre de la carrera: ");
-	scanf("%[^\n]", estudiante->carrera);
+	fgets(estudiante->carrera, 50, stdin);
+	strtok(estudiante->carrera, "\n");
+
 	printf("Nivel del estudiante: ");
 	scanf("%d", &estudiante->nivel);
 
@@ -57,8 +69,11 @@ void registrarEstudiante(Estudiante *estudiante){
 	}while(estudiante->numeroMaterias < 3 || estudiante->numeroMaterias > 7);
 
 	for(int i = 0; i < estudiante->numeroMaterias; i++){
+
 		printf("Nombre de la materia %d: ", i + 1);
-		scanf("%[^\n]", estudiante->materias[i].nombreMateria);
+		fgets(estudiante->materias[i].nombreMateria, sizeof(estudiante->materias[i].nombreMateria), stdin);
+		strtok(estudiante->materias[i].nombreMateria, "\n");
+
 		printf("Ingrese los credito de la materia %d: ", i + 1);
 		scanf("%d", &estudiante->materias[i].creditos);
 	}
@@ -155,8 +170,6 @@ int main(int argc, char *argv[]){
 
 	}else{
 		printf("Opción inválida o Incorrecta. Use -p para profesor, -e para estudiante, o -a para ambos.\n");
-		printf("Escriba -p para profesor o -e para estudiante o -a para ambos.\n");
-		printf("PERO ESCRIBA BIEN.\n");
 	}
 
 	return 0;
