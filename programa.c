@@ -92,7 +92,70 @@ void mostrarLaInformacion(int cantidadProfesores, Profesor *profesores, Estudian
 }
 
 int main(int argc, char *argv[]){
+
 	if(argc < 3){
-		printf(
+		printf("Cantidad : %s <personas> <opciones (-p|-e|-a)>\n", argv[0]);
+		return 1;
 	}
+
+	int cantidad = atoi(argv[1]);
+
+	if(cantidad < 2) {
+		printf("La cantidad de personas debe ser si o si ser mayor o igual a 2.\n");
+		return 1;
+	}
+
+	char *opcion = argv[2];
+	Profesor *profesores = NULL;
+	Estudiante *estudiantes = NULL;
+
+	if(opcion[1] == 'p'){
+
+		printf("Opción seleccionada: %c\n", opcion[1]);
+		printf("Cantidad de personas a registrar: %d\n", cantidad);
+
+		profesores = malloc(cantidad * sizeof(Profesor));
+		for(int i = 0; i<cantidad;i++){
+			registrarProfesor(&profesores[i]);
+		}
+		mostrarLaInformacion(cantidad, profesores, NULL, 0);
+        	free(profesores);
+
+	}else if(opcion[1] == 'e'){
+
+		printf("Opción seleccionada: %c\n", opcion[1]);
+                printf("Cantidad de personas a registrar: %d\n", cantidad);
+
+		estudiantes = malloc(cantidad * sizeof(Estudiante));
+		for(int i = 0; i < cantidad; i++) {
+			registrarEstudiante(&estudiantes[i]);
+		}
+		mostrarLaInformacion(0,NULL,estudiantes,cantidad);
+		free(estudiantes);
+
+	}else if(opcion[1] == 'a'){
+
+		printf("Opción seleccionada: %c\n", opcion[1]);
+                printf("Cantidad de personas a registrar: %d\n", cantidad);
+
+		profesores = malloc(sizeof(Profesor));
+		estudiantes = malloc((cantidad - 1) * sizeof(Estudiante));
+
+		registrarProfesor(profesores);
+
+		for(int i = 0; i < cantidad -1; i++){
+			registrarEstudiante(&estudiantes[i]);
+		}
+
+		mostrarLaInformacion(1, profesores,estudiantes,cantidad -1);
+		free(profesores);
+		free(estudiantes);
+
+	}else{
+		printf("Opción inválida o Incorrecta. Use -p para profesor, -e para estudiante, o -a para ambos.\n");
+		printf("Escriba -p para profesor o -e para estudiante o -a para ambos.\n");
+		printf("PERO ESCRIBA BIEN.\n");
+	}
+
+	return 0;
 }
